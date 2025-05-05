@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   RouterProvider,
   createBrowserRouter,
@@ -19,18 +19,33 @@ function App() {
   const [contacts, setContacts] = useState([]);
   const [appointments, setAppointments] = useState([]);
 
+
+    // Log contacts after it has been updated
+    useEffect(() => {
+      console.log("Updated contacts:", contacts);
+    }, [contacts]); // This will log contacts whenever they change
+
   /*
   Implement functions to add data to
   contacts and appointments
   */
 
-  function addContact(newContactData) {
-    setContacts((oldContacts) => [...oldContacts, newContactData]);
-  }
+  // const addContact = (name, phone, email) => {
+  //   setContacts((prevContacts) => [...prevContacts, {name, phone, email}]);
+  // };
 
-    function addAppointment(newAppointmentData) {
-      setAppointments((oldAppointments) => [...oldAppointments, newAppointmentData]);
-    }
+  const addContact = (name, phone, email) => {
+    setContacts((prevContacts) => {
+      const newContacts = [...prevContacts, { name, phone, email }];
+      console.log("New contacts after addContact:", newContacts);  // Log here to track state changes
+      return newContacts;
+    });
+  };
+  
+
+  const addAppointment = (name, contact, date, time) => {
+    setAppointments((prevAppointments) => [...prevAppointments, {name, contact, date, time}]);
+  };
 
     const router = createBrowserRouter(
       createRoutesFromElements(
